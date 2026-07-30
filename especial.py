@@ -38,7 +38,6 @@ if not st.session_state.logged_in:
     palabra_clave = st.text_input("Palabra clave", type="password")
     
     if st.button("Entrar"):
-        # Puedes cambiar "cuysita" por la palabra clave que desees
         if palabra_clave.lower() == "cuysita": 
             st.session_state.logged_in = True
             st.rerun()
@@ -53,7 +52,7 @@ else:
     # A. MENÚ PRINCIPAL
     if st.session_state.pagina_actual == 'menu':
         st.title("🕰️ Bóveda de Recuerdos")
-        st.write("Bienvenida Cuysita🫶. Elige a qué momento quieras recordar🥹:")
+        st.write("Bienvenida. Elige a qué momento quieres viajar:")
         
         col1, col2, col3 = st.columns(3)
         
@@ -82,51 +81,37 @@ else:
         if st.session_state.pagina_actual == 'pasado':
             st.title("✨ Nuestro Pasado")
             
-            # Carga de tu video subido
             try:
                 st.video("video_pasado.mp4")
             except Exception:
                 st.warning("No se pudo cargar 'video_pasado.mp4'")
             
             st.write("""
-            El mejor recuerdo q tengo, unos de los principales diria yo, 
-            gracias por darme ese lindo momento donde te comiste tdo😿,
-            pero aun asi me qedo con lo lindo q la pasamos juntos mi Cuysita 
-            TE LO AGRADEZO TE TODO CORAZON🫶
+            El mejor recuerdo q tengo, unos de los principales diria yo, gracias por darme ese lindo momento donde te comiste tdo😿, pero aun asi me qedo con lo lindo q la pasamos juntos mi Cuysita TE LO AGRADEZO DE TODO CORAZON🫶
             """)
 
         # PRESENTE
         elif st.session_state.pagina_actual == 'presente':
             st.title("✨ Nuestro Presente")
             
-            # Carga de tu foto de presente subida
             try:
                 st.image("foto_presente.jpg", use_container_width=True)
             except Exception:
                 st.warning("No se pudo cargar 'foto_presente.jpg'")
             
             st.write("""
-            Pasar de bellos momentos a un presente solitario,
-            donde nos bucamos pero no nos encontramos, donde
-            pediste mi ayude y no estuve ahi para dartelo, no 
-            sabes lo mucho q me arrepiento no haberte valorado
-            ESPERO ME PERDONES Y PODRAMOS VOLVER A RETOMAR ESA
-            LINDA AMISTAD Q TENIAMOS MI CUYSITA NEGRITA🥺🫶
+            Pasar de bellos momentos a un presente solitario, donde nos bucamos pero no nos encontramos, donde pediste mi ayude y no estuve ahi para dartelo, no sabes lo mucho q me arrepiento no haberte valorado ESPERO ME PERDONES Y PODRAMOS VOLVER A RETOMAR ESA LINDA AMISTAD Q TENIAMOS MI CUYSITA NEGRITA🥺🫶
             """)
 
         # FUTURO
         elif st.session_state.pagina_actual == 'futuro':
             st.title("✨ Nuestro Futuro")
             
-            # Carga de tu foto de futuro subida (.png)
             try:
                 st.image("foto_futuro.png", use_container_width=True)
             except Exception:
                 st.warning("No se pudo cargar 'foto_futuro.png'")
             
             st.write("""
-            Y BUENO SOLO ESPERO UN FUTURO COMO EL DE ESTA IMAGEN
-            AUNK LA VEAS GRACIOSAA, TU MI CUYSITA, Y YO TU MONO
-            JSJSJS DANDONOS UN ABRAZO DSP DE AVER RECUPERADO 
-            NUESTRA LINDA AMISTAD MI MEJOR AMIGA🥺🫶
+            Y BUENO SOLO ESPERO UN FUTURO COMO EL DE ESTA IMAGEN AUNK LA VEAS GRACIOSAA, TU MI CUYSITA, Y YO TU MONO.... JSJSJS DANDONOS UN ABRAZO DSP DE AVER RECUPERADO NUESTRA LINDA AMISTAD MI MEJOR AMIGA🥺🫶
             """)
