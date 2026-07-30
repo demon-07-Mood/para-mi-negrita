@@ -20,7 +20,7 @@ def cargar_musica(ruta_archivo):
             '''
             st.markdown(audio_html, unsafe_allow_html=True)
     except FileNotFoundError:
-        st.warning("⚠️ Sube tu archivo MP3 de Paulo Londra al repositorio y llámalo 'cancion.mp3'")
+        st.warning("⚠️ No se encontró el archivo de audio 'cancion.mp3'")
 
 # Inicializar variables de sesión
 if 'logged_in' not in st.session_state:
@@ -38,7 +38,7 @@ if not st.session_state.logged_in:
     palabra_clave = st.text_input("Palabra clave", type="password")
     
     if st.button("Entrar"):
-        # Cambia "cuysita" por la contraseña que elijas
+        # Puedes cambiar "cuysita" por la palabra clave que desees
         if palabra_clave.lower() == "cuysita": 
             st.session_state.logged_in = True
             st.rerun()
@@ -47,7 +47,7 @@ if not st.session_state.logged_in:
 
 # 2. SISTEMA PRINCIPAL
 else:
-    # Reproducir música continua de fondo
+    # Reproducir música de fondo (cancion.mp3)
     cargar_musica("cancion.mp3")
 
     # A. MENÚ PRINCIPAL
@@ -82,11 +82,14 @@ else:
         if st.session_state.pagina_actual == 'pasado':
             st.title("✨ Nuestro Pasado")
             
-            # Puedes usar st.image("foto_pasado.jpg") o st.video("video_pasado.mp4")
-            st.info("Coloca aquí tu foto/video del pasado")
+            # Carga de tu video subido
+            try:
+                st.video("video_pasado.mp4")
+            except Exception:
+                st.warning("No se pudo cargar 'video_pasado.mp4'")
             
             st.write("""
-            Escribe aquí el texto recordando cómo se conocieron y los bonitos 
+            Escribe aquí tu mensaje recordando cómo se conocieron y los bonitos 
             momentos de cuando empezaron a decirse mono y cuysita.
             """)
 
@@ -94,18 +97,26 @@ else:
         elif st.session_state.pagina_actual == 'presente':
             st.title("✨ Nuestro Presente")
             
-            st.info("Coloca aquí tu foto/video del presente")
+            # Carga de tu foto de presente subida
+            try:
+                st.image("foto_presente.jpg", use_container_width=True)
+            except Exception:
+                st.warning("No se pudo cargar 'foto_presente.jpg'")
             
             st.write("""
             Escribe aquí tu mensaje sincero pidiendo disculpas por haberte 
-            distanciado y reconociendo lo idiota que fuiste al dejar enfriar la amistad.
+            distanciado y reconociendo el error de haber dejado enfriar la amistad.
             """)
 
         # FUTURO
         elif st.session_state.pagina_actual == 'futuro':
             st.title("✨ Nuestro Futuro")
             
-            st.info("Coloca aquí una foto/video sobre el futuro")
+            # Carga de tu foto de futuro subida (.png)
+            try:
+                st.image("foto_futuro.png", use_container_width=True)
+            except Exception:
+                st.warning("No se pudo cargar 'foto_futuro.png'")
             
             st.write("""
             Escribe aquí lo que deseas para la amistad de aquí en adelante, 
