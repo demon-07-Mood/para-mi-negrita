@@ -1,311 +1,113 @@
-
 import streamlit as st
-import time
+import base64
 
-# 1. Configuración visual (Estilo Hello Kitty / Amor)
-st.set_page_config(page_title="💖Para mi Vida💖", page_icon="💖")
+# Configuración inicial de la página
+st.set_page_config(page_title="Bóveda de Recuerdos", page_icon="⏳", layout="centered")
 
-st.markdown("""
-    <style>
-    .stApp {
-        background-color: #FFB6C1;
-        background-image: radial-gradient(#FF69B4 0.5px, transparent 0.5px);
-        background-size: 20px 20px;
-    }
-    h1, h2, h3, p {
-        color: #8B0000 !important;
-        font-family: 'Comic Sans MS', cursive;
-    }
-    .stButton>button {
-        background-color: #FF69B4;
-        color: white;
-        border-radius: 20px;
-        border: 2px solid #FF1493;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+# --- FUNCIONES AUXILIARES ---
 
-# 2. Control de Acceso
-if 'autenticado' not in st.session_state:
-    st.session_state.autenticado = False
+def cargar_musica(ruta_archivo):
+    # Oculta el reproductor y hace que la música suene en bucle
+    try:
+        with open(ruta_archivo, "rb") as f:
+            data = f.read()
+            b64 = base64.b64encode(data).decode()
+            # HTML de audio con autoplay y loop oculto
+            audio_html = f'''
+                <audio autoplay loop style="display:none;">
+                <source src="data:audio/mp3;base64,{b64}" type="audio/mp3">
+                </audio>
+            '''
+            st.markdown(audio_html, unsafe_allow_html=True)
+    except FileNotFoundError:
+        st.warning("⚠️ Sube tu archivo MP3 de Paulo Londra al repositorio y llámalo 'cancion.mp3'")
 
-if not st.session_state.autenticado:
-    st.subheader("🌸 Ingrese datos")
-    user = st.text_input("Usuario")
-    password = st.text_input("Contraseña", type="password")
+# Inicializar variables de sesión
+if 'logged_in' not in st.session_state:
+    st.session_state.logged_in = False
+if 'pagina_actual' not in st.session_state:
+    st.session_state.pagina_actual = 'menu'
+
+# --- INTERFAZ ---
+
+# 1. SISTEMA DE LOGIN
+if not st.session_state.logged_in:
+    st.title("🔐 Acceso Secreto")
+    st.write("Ingresa la palabra clave para entrar a la bóveda:")
     
-    if st.button("Entrar 💖"):
-        if user == "JulianCito" and password == "JulianCito":
-            st.session_state.autenticado = True
+    palabra_clave = st.text_input("Palabra clave", type="password")
+    
+    if st.button("Entrar"):
+        # Cambia "cuysita" por la contraseña que elijas
+        if palabra_clave.lower() == "cuysita": 
+            st.session_state.logged_in = True
             st.rerun()
         else:
-            st.error("Datos incorrectos, mi amor. Inténtalo de nuevo.")
+            st.error("Palabra clave incorrecta. Intenta de nuevo.")
+
+# 2. SISTEMA PRINCIPAL
 else:
-    # 3. Música de fondo (Aquel Nap ZzZz)
-    # El tag 'loop' asegura que se repita siempre
-    st.audio("musica.mp3", format="audio/mp3", loop=True, autoplay=True)
+    # Reproducir música continua de fondo
+    cargar_musica("cancion.mp3")
 
-    # 4. Animación de Entrada
-    if 'paso' not in st.session_state:
-        st.session_state.paso = 'animacion'
-
-    if st.session_state.paso == 'animacion':
-        st.balloons() # Simulación de mariposas/vuelo
-        st.markdown("<h1 style='text-align: center;'>🦋 ❤️ 🦋</h1>", unsafe_allow_html=True)
-        st.markdown("<h1 style='text-align: center; font-size: 50px;'>Te Amo mi Vida</h1>", unsafe_allow_html=True)
+    # A. MENÚ PRINCIPAL
+    if st.session_state.pagina_actual == 'menu':
+        st.title("🕰️ Bóveda de Recuerdos")
+        st.write("Bienvenida. Elige a qué momento quieres viajar:")
         
-        # Imagen de Hello Kitty
-        try:
-            st.image("kitty.gif", use_container_width=True)
-        except:
-            st.write("✨ (Aquí va tu GIF de Hello Kitty) ✨")
-            
-        if st.button("Empezar Cuestionario ✨"):
-            st.session_state.paso = 'cuestionario'
-            st.rerun()
-
-    # 5. El Cuestionario
-    elif st.session_state.paso == 'cuestionario':
-        st.title("💘 ¿Cuánto conoces a tu amor?")
+        col1, col2, col3 = st.columns(3)
         
-        q1 = st.text_input("1. ¿En que año nacio el amor de tu vida?").strip().lower()
-        q2 = st.text_input("2. ¿Qué edad tiene el amor de tu vida?")
-        q3 = st.text_input("3. ¿Cómo se llama el amor de tu vida?").strip().capitalize()
-        q4 = st.text_input("4. ¿Cuándo conociste al amor de tu vida?")
-        q5 = st.radio("5. ¿Estarias con el amor de tu vida?", ("Selecciona", "si", "no"))
-
-        if st.button("Enviar respuestas 💌"):
-            puntos = 0
-            if q1 == "2008": puntos += 1
-            if q2 == "18": puntos += 1
-            if q3 in ["Julian", "Leandro"]: puntos += 1
-            if "2022" in q4: puntos += 1
-            if q5 == "si": puntos += 1
-            
-            st.session_state.puntos = puntos
-            st.session_state.paso = 'resultado'
-            st.rerun()
-
-    # 6. Pantallas de Resultado
-    elif st.session_state.paso == 'resultado':
-        p = st.session_state.puntos
-        
-        if p >= 4:
-            st.header("🎊 FELICIDADES, TE GANASTE MI CORAZON")
-            st.image("kitty.gif", use_container_width=True)
-        
-        elif p in [2, 3]:
-            st.header("🧸 Muy Bien Niñita")
-            if st.button("Volver a intentar"):
-                st.session_state.paso = 'cuestionario'
+        with col1:
+            if st.button("⏪ Pasado"):
+                st.session_state.pagina_actual = "pasado"
+                st.rerun()
+        with col2:
+            if st.button("▶️ Presente"):
+                st.session_state.pagina_actual = "presente"
+                st.rerun()
+        with col3:
+            if st.button("⏩ Futuro"):
+                st.session_state.pagina_actual = "futuro"
                 st.rerun()
 
-        else:
-            st.header("❌ Fallaste Amor")
-            st.write("¿Deseas continuar?")
-            col1, col2 = st.columns(2)
-            with col1:
-                if st.button("Sí"):
-                    st.session_state.paso = 'cuestionario'
-                    st.rerun()
-            with col2:
-                if st.button("No"):
-                    st.write("Programa cerrado. Adiós, amor.")
-                    st.stop()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    # B. PÁGINAS DE CONTENIDO (Pasado, Presente, Futuro)
+    else:
+        if st.button("🔙 Regresar a la Bóveda"):
+            st.session_state.pagina_actual = 'menu'
+            st.rerun()
+            
+        st.divider()
+
+        # PASADO
+        if st.session_state.pagina_actual == 'pasado':
+            st.title("✨ Nuestro Pasado")
+            
+            # Puedes usar st.image("foto_pasado.jpg") o st.video("video_pasado.mp4")
+            st.info("Coloca aquí tu foto/video del pasado")
+            
+            st.write("""
+            Escribe aquí el texto recordando cómo se conocieron y los bonitos 
+            momentos de cuando empezaron a decirse mono y cuysita.
+            """)
+
+        # PRESENTE
+        elif st.session_state.pagina_actual == 'presente':
+            st.title("✨ Nuestro Presente")
+            
+            st.info("Coloca aquí tu foto/video del presente")
+            
+            st.write("""
+            Escribe aquí tu mensaje sincero pidiendo disculpas por haberte 
+            distanciado y reconociendo lo idiota que fuiste al dejar enfriar la amistad.
+            """)
+
+        # FUTURO
+        elif st.session_state.pagina_actual == 'futuro':
+            st.title("✨ Nuestro Futuro")
+            
+            st.info("Coloca aquí una foto/video sobre el futuro")
+            
+            st.write("""
+            Escribe aquí lo que deseas para la amistad de aquí en adelante, 
+            dejando en claro que no quieres dejarla morir.
+            """)
