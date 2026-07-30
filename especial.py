@@ -53,7 +53,7 @@ else:
     # A. MENÚ PRINCIPAL
     if st.session_state.pagina_actual == 'menu':
         st.title("🕰️ Bóveda de Recuerdos")
-        st.write("Bienvenida. Elige a qué momento quieres viajar:")
+        st.write("Bienvenida Cuysita🫶. Elige a qué momento quieras recordar🥹:")
         
         col1, col2, col3 = st.columns(3)
         
@@ -89,8 +89,10 @@ else:
                 st.warning("No se pudo cargar 'video_pasado.mp4'")
             
             st.write("""
-            Escribe aquí tu mensaje recordando cómo se conocieron y los bonitos 
-            momentos de cuando empezaron a decirse mono y cuysita.
+            El mejor recuerdo q tengo, unos de los principales diria yo, 
+            gracias por darme ese lindo momento donde te comiste tdo😿,
+            pero aun asi me qedo con lo lindo q la pasamos juntos mi Cuysita 
+            TE LO AGRADEZO TE TODO CORAZON🫶
             """)
 
         # PRESENTE
@@ -104,8 +106,12 @@ else:
                 st.warning("No se pudo cargar 'foto_presente.jpg'")
             
             st.write("""
-            Escribe aquí tu mensaje sincero pidiendo disculpas por haberte 
-            distanciado y reconociendo el error de haber dejado enfriar la amistad.
+            Pasar de bellos momentos a un presente solitario,
+            donde nos bucamos pero no nos encontramos, donde
+            pediste mi ayude y no estuve ahi para dartelo, no 
+            sabes lo mucho q me arrepiento no haberte valorado
+            ESPERO ME PERDONES Y PODRAMOS VOLVER A RETOMAR ESA
+            LINDA AMISTAD Q TENIAMOS MI CUYSITA NEGRITA🥺🫶
             """)
 
         # FUTURO
@@ -119,6 +125,8 @@ else:
                 st.warning("No se pudo cargar 'foto_futuro.png'")
             
             st.write("""
-            Escribe aquí lo que deseas para la amistad de aquí en adelante, 
-            dejando en claro que no quieres dejarla morir.
+            Y BUENO SOLO ESPERO UN FUTURO COMO EL DE ESTA IMAGEN
+            AUNK LA VEAS GRACIOSAA, TU MI CUYSITA, Y YO TU MONO
+            JSJSJS DANDONOS UN ABRAZO DSP DE AVER RECUPERADO 
+            NUESTRA LINDA AMISTAD MI MEJOR AMIGA🥺🫶
             """)
